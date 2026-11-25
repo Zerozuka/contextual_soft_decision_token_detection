@@ -30,6 +30,43 @@ where $\log P(\mathbf{y}_i \mid s_i = k)$ is the token log-likelihood computed f
 
 The LMM attends to the text prefix and to the last $W$ image tokens only (sliding-window attention, `emu3.window_size`). This is implemented in the vendored `src/models/third_party/modeling_emu3.py`.
 
+## Results
+
+All results below use 100 FFHQ images at 512x512 and are produced from the recorded runs in `results/sweeps/` (see [Reproducing the paper](#reproducing-the-paper)). *Uncoded* and *LDPC* are hard-decision baselines; *Proposed* uses the LMM prior with $\tau = 1$ and $W = 4096$, and *Proposed+LDPC* applies it to the LLRs after LDPC decoding. The LDPC curves use 16-QAM.
+
+### Token error rate
+
+![TER vs Eb/N0](results/figures/ter_vs_snr.png)
+
+Without channel coding, the LMM prior lowers the token error rate (TER) over the whole $E_b/N_0$ range. At 3 dB, for example, TER drops from 0.292 to 0.051.
+
+### Reconstructed image quality
+
+| PSNR (higher is better) | LPIPS (lower is better) | CLIP score (higher is better) |
+| --- | --- | --- |
+| ![PSNR vs Eb/N0](results/figures/psnr_vs_snr.png) | ![LPIPS vs Eb/N0](results/figures/lpips_vs_snr.png) | ![CLIP score vs Eb/N0](results/figures/clip_similarity_vs_snr.png) |
+
+Between 1 dB and 5 dB, the proposed detector improves PSNR by up to 9.5 dB, reduces LPIPS by up to 85% and increases the CLIP score by up to 73% compared with uncoded hard decision. The arrows mark the largest $E_b/N_0$ gain at equal quality.
+
+### Temperature
+
+![TER vs temperature](results/figures/ter_vs_tau.png)
+
+TER is lowest around $\tau = 1$. A small $\tau$ lets the prior override the channel, and a large $\tau$ removes its benefit.
+
+### Attention window
+
+TER of the proposed detector for different attention windows $W$ (number of preceding image tokens the LMM attends to):
+
+| $E_b/N_0$ (dB) | $W = 10$ | $W = 128$ | $W = 512$ | $W = 4096$ |
+| --- | --- | --- | --- | --- |
+| 1 | 0.349 | 0.263 | 0.237 | 0.225 |
+| 3 | 0.124 | 0.063 | 0.054 | 0.051 |
+| 5 | 0.028 | 0.011 | 0.009 | 0.009 |
+| 7 | 0.004 | 0.001 | 0.001 | 0.001 |
+
+A longer context gives a better prior. Most of the gain is already reached at $W = 512$ (8 rows of 64 tokens).
+
 ## Repository layout
 
 ```text
@@ -91,15 +128,13 @@ No GPU and no dataset are needed. This takes less than a minute:
 bash scripts/reproduce_paper.sh figures
 ```
 
-The script writes the figures to `outputs/paper_figures/sweeps/` and prints the window-size table. The figures are pixel-identical to `results/figures/`.
+The script writes the figures to `outputs/paper_figures/sweeps/` and prints the window-size table. The PDF figures are pixel-identical to `results/figures/*.pdf`; the PNG files there are 150 dpi renderings for this page.
 
 | Paper item | Recorded sweep | Output |
 | --- | --- | --- |
 | TER, PSNR, LPIPS, CLIP score vs $E_b/N_0$ | `results/sweeps/sweep_20260413_095050_` | `snr/vs_snr/*_vs_snr.pdf` |
 | TER vs $\tau$ | `results/sweeps/sweep_20260414_174518__tau_sweep` | `tau/vs_tau/ter_vs_tau.pdf` |
 | Table: TER vs window size $W$ | `results/sweeps/sweep_20260416_133456__window` | printed as LaTeX rows |
-
-In the table, two cells at 1 dB ($W=10$ and $W=128$) differ by 0.0001 from the paper, because the paper truncated these two values instead of rounding them.
 
 ### Rerunning the experiments
 
