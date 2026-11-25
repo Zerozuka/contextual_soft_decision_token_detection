@@ -1,0 +1,10 @@
+- channel.snr=-3
+- channel.use_ldpc=true
+- channel.ldpc_n=2048
+- channel.ldpc_coderate=0.5
+- channel.ldpc_num_iter=20
+- channel.num_bits_per_symbol=4
+- receiver.use_llm=false
+- receiver.num_bits_per_symbol=4
+- num_images=100
+- dataset.batch_size=5

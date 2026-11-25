@@ -1,0 +1,10 @@
+- channel.snr=-6
+- channel.use_ldpc=false
+- channel.num_bits_per_symbol=2
+- receiver.use_llm=false
+- receiver.num_bits_per_symbol=2
+- num_images=100
+- dataset.batch_size=5
+- dataset.name=FFHQ
+- dataset.path=~/datasets/ffhq_512
+- dataset.resolution=512

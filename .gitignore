@@ -1,0 +1,33 @@
+# Experiment outputs (Hydra run directories, regenerated figures)
+outputs/
+multirun/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Logs and large binaries
+*.log
+*.npy
+*.pt
+*.pth
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/
+.claude/
+
+# LaTeX build artifacts (paper/)
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.dvi
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.out
+paper/main.pdf

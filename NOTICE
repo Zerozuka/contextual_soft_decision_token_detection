@@ -1,0 +1,9 @@
+Contextual Soft-Decision Token Detection via LMM-Based Generative Semantic Prior
+Copyright 2026 The authors
+
+This product includes software from the Emu3 project
+(https://huggingface.co/BAAI/Emu3-Gen, https://github.com/baaivision/Emu3),
+Copyright 2024 The Emu team, BAAI and The HuggingFace Inc. team,
+licensed under the Apache License, Version 2.0.
+The vendored files are in src/models/third_party/; modeling_emu3.py has been
+modified to add sliding-window attention over image tokens.

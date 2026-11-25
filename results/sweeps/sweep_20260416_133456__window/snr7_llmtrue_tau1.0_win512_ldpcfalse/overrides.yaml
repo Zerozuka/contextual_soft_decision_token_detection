@@ -1,0 +1,8 @@
+- channel.snr=7
+- channel.use_ldpc=false
+- receiver.use_llm=true
+- receiver.temperature=1.0
+- receiver.beam_width=1
+- emu3.window_size=512
+- num_images=100
+- dataset.batch_size=5

@@ -1,0 +1,38 @@
+# Default configuration. Every field can be overridden from the command line,
+# e.g. `python src/main.py channel.snr=1 receiver.temperature=2`.
+
+dataset:
+  name: "FFHQ"                  # only FFHQ is supported
+  path: "~/datasets/ffhq_512"   # directory of FFHQ 512x512 images
+  batch_size: 5
+  resolution: 512               # 512x512 px -> 64x64 = 4096 tokens per image
+
+emu3:
+  emu_hub: "BAAI/Emu3-Gen"                # LMM used as the prior
+  vq_hub: "BAAI/Emu3-VisionTokenizer"     # VQ tokenizer (codebook size 32768, 15 bits/token)
+  window_size: 4096                       # attention window W over image tokens
+
+transmitter: {}
+
+channel:
+  snr: 3                   # Eb/N0 [dB]
+  num_bits_per_symbol: 2   # QPSK
+  use_ldpc: false          # enable 5G NR LDPC coding
+  ldpc_n: 2048             # codeword length n; k = int(ldpc_coderate * n)
+  ldpc_coderate: 0.5
+  ldpc_num_iter: 20        # BP iterations
+
+receiver:
+  use_llm: true            # false: hard-decision baseline, true: proposed LMM-based detection
+  temperature: 1.0         # tau; score = log P(y|s) + logit / tau (larger tau = weaker prior)
+  beam_width: 1            # only greedy decoding (1) is supported
+  use_cache: true          # LMM KV cache
+  num_bits_per_symbol: 2   # must match channel.num_bits_per_symbol
+
+wandb:
+  project: "contextual_soft_decision_token_detection"
+
+seed: 42
+num_images: 5        # number of images to evaluate (-1 = all); the paper uses 100
+use_wandb: false
+save_images: true

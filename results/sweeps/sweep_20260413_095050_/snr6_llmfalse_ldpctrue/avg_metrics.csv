@@ -1,0 +1,2 @@
+snr,psnr,ssim,lpips,clip_similarity,ter,ber,tx_time,rx_time,compression_ratio,tx_encode_time,tx_total_time,rx_decode_time,rx_total_time,fid,temperature,window_size,use_llm,use_ldpc,beam_width,dataset,resolution
+6,29.684279441833496,0.823484405875206,0.04928635358810425,0.988720703125,0.0,0.0,1.5251054763793945,4.495869648456574,0.04071004676160515,1.5239409804344177,1.5250726103782655,0.0059422612190246586,4.495799469947815,14.097878456115723,1.0,0,False,True,1,FFHQ,512
