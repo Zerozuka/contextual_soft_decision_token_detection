@@ -1,6 +1,10 @@
 # Contextual Soft-Decision Token Detection via LMM-Based Generative Semantic Prior
 
-Code and results for the paper *Contextual Soft-Decision Token Detection via LMM-Based Generative Semantic Prior*.
+Code and results for the paper:
+
+```text
+R. Ishizuka, A. E. Kalør, and T. Ohtsuki, "Contextual Soft-Decision Token Detection via LMM-Based Generative Semantic Prior," IEEE Global Communications Conference (GLOBECOM), 2026.
+```
 
 In token communication, an image is converted into discrete tokens by a tokenizer and the tokens are sent over a wireless channel. This repository implements a receiver that detects each token by fusing the physical-layer log-likelihood ratios (LLRs) with a contextual prior from a large multimodal model (LMM). The transmitter needs only the tokenizer, not the LMM.
 
